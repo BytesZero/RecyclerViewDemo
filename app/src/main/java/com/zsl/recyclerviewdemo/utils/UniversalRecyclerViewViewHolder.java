@@ -19,6 +19,7 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.zsl.recyclerviewdemo.utils.UniversalRecyclerViewAdapter.OnItemClickListener;
@@ -197,6 +198,18 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      */
     public UniversalRecyclerViewViewHolder setViewVisible(int viewId) {
         getView(viewId).setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    /**
+     * 设置CheckBox 是否选中
+     * @param viewId
+     * @param isChecked
+     * @return
+     */
+    public UniversalRecyclerViewViewHolder setCheckBox(int viewId,boolean isChecked){
+        CheckBox checkBox=getView(viewId);
+        checkBox.setChecked(isChecked);
         return this;
     }
 

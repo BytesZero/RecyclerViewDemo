@@ -12,7 +12,7 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/show1_item_tv_icon"
+            android:id="@+id/show1_item_iv_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -24,9 +24,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/show1_item_tv_icon"
             android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/show1_item_iv_icon"
             android:text="Android"/>
+        <CheckBox
+            android:id="@+id/show1_item_cb_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 

@@ -21,14 +21,16 @@ import java.io.Serializable;
  * Created by zsl on 15/11/2.
  * User用户
  */
-public class User implements Serializable{
+public class User implements Serializable {
     int userId;
-    String name,icon;
+    String name, icon;
+    boolean isMan;
 
-    public User(int userId, String name, String icon) {
+    public User(int userId, String name, String icon, boolean isMan) {
         this.userId = userId;
         this.name = name;
         this.icon = icon;
+        this.isMan = isMan;
     }
 
     public int getUserId() {
@@ -55,12 +57,21 @@ public class User implements Serializable{
         this.icon = icon;
     }
 
+    public boolean isMan() {
+        return isMan;
+    }
+
+    public void setIsMan(boolean isMan) {
+        this.isMan = isMan;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
                 ", name='" + name + '\'' +
                 ", icon='" + icon + '\'' +
+                ", isMan=" + isMan +
                 '}';
     }
 }

@@ -22,6 +22,7 @@ public class MyShow2Adapter extends UniversalRecyclerViewAdapter<User> {
     @Override
     public void convert(UniversalRecyclerViewViewHolder holder, User user, int position) {
         holder.setText(R.id.show1_item_tv_name, user.getName())
-                .setImage(R.id.show1_item_tv_icon, user.getIcon());
+                .setImage(R.id.show1_item_iv_icon, user.getIcon())
+                .setCheckBox(R.id.show1_item_cb_man,user.isMan());
     }
 }

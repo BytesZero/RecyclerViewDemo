@@ -2,10 +2,10 @@ package com.zsl.recyclerviewdemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.zsl.recyclerviewdemo.adapter.MyShow2Adapter;
 import com.zsl.recyclerviewdemo.entity.User;
@@ -16,10 +16,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<String> stringList=new ArrayList<String>();
+    List<String> stringList = new ArrayList<String>();
 
     //用户数据
-    List<User> userList=new ArrayList<User>();
+    List<User> userList = new ArrayList<User>();
 
     RecyclerView rv_show1;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
      * 初始化View
      */
     private void initView() {
-        rv_show1= (RecyclerView) findViewById(R.id.main_rv_show);
+        rv_show1 = (RecyclerView) findViewById(R.id.main_rv_show);
     }
 
     /**
@@ -57,28 +57,34 @@ public class MainActivity extends AppCompatActivity {
         stringList.add("http://img1.3lian.com/gif/more/11/201210/58485e92169cf749dc1fb7a8a9872ef1.jpg");
 
         //添加数据
-        for (int i=0;i<1000;i++){
-            int position= (int) (Math.random()*10);
-            User user=new User(i,"Name "+i,stringList.get(position));
+        for (int i = 0; i < 1000; i++) {
+            int position = (int) (Math.random() * 10);
+            User user = new User(i, "Name " + i, stringList.get(position), position % 2 == 0 ? true : false);
             userList.add(user);
         }
 
-        rv_show1.setLayoutManager(new LinearLayoutManager(this));
+//        rv_show1.setLayoutManager(new LinearLayoutManager(this));
 //        rv_show1.setLayoutManager(new GridLayoutManager(this,2));
 
-//        rv_show1.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
+        rv_show1.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.HORIZONTAL));
         //初始化adapter
-        final MyShow2Adapter myShow2Adapter=new MyShow2Adapter(this,userList,0);
+        final MyShow2Adapter myShow2Adapter = new MyShow2Adapter(this, userList, 0);
 
         //添加点击事件
         myShow2Adapter.setOnItemClickListener(new UniversalRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                int random= (int) (Math.random()*10);
-                User user=new User(2,"Changed Name ",stringList.get(random));
-                myShow2Adapter.add(user,position);
-                Toast.makeText(MainActivity.this,"position:"+position,Toast.LENGTH_SHORT).show();
-
+                if (position == 2) {
+                    //添加
+                    int random = (int) (Math.random() * 10);
+                    User user = new User(2, "Changed Name ", stringList.get(random), random % 2 == 0 ? true : false);
+                    myShow2Adapter.add(user, position);
+                } else {
+                    //更新
+                    User user=userList.get(position);
+                    user.setIsMan(!user.isMan());
+                    myShow2Adapter.update(position);
+                }
             }
         });
 
