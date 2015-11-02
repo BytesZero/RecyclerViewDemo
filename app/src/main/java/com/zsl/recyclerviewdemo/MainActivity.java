@@ -2,12 +2,11 @@ package com.zsl.recyclerviewdemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import com.zsl.recyclerviewdemo.adapter.MyShow2Adapter;
+import com.zsl.recyclerviewdemo.adapter.MultipleItemAdapter;
 import com.zsl.recyclerviewdemo.entity.User;
 import com.zsl.recyclerviewdemo.utils.UniversalRecyclerViewAdapter;
 
@@ -64,32 +63,60 @@ public class MainActivity extends AppCompatActivity {
         }
 
 //        rv_show1.setLayoutManager(new LinearLayoutManager(this));
-//        rv_show1.setLayoutManager(new GridLayoutManager(this,2));
+        rv_show1.setLayoutManager(new GridLayoutManager(this,2));
 
-        rv_show1.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.HORIZONTAL));
-        //初始化adapter
-        final MyShow2Adapter myShow2Adapter = new MyShow2Adapter(this, userList, 0);
+//        rv_show1.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.HORIZONTAL));
+        /**
+         * 初始化普通的adapter
+         */
+//        final MyShow2Adapter myShow2Adapter = new MyShow2Adapter(this, userList, 0);
+//
+//        //添加点击事件
+//        myShow2Adapter.setOnItemClickListener(new UniversalRecyclerViewAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View itemView, int position) {
+//                if (position == 2) {
+//                    //添加
+//                    int random = (int) (Math.random() * 10);
+//                    User user = new User(2, "Changed Name ", stringList.get(random), random % 2 == 0 ? true : false);
+//                    myShow2Adapter.add(user, position);
+//                } else {
+//                    //更新
+//                    User user=userList.get(position);
+//                    user.setIsMan(!user.isMan());
+//                    myShow2Adapter.update(position);
+//                }
+//            }
+//        });
+//
+//        //添加adapter
+//        rv_show1.setAdapter(myShow2Adapter);
+
+        /**
+         * 初始化多item的adapter
+         */
+        final MultipleItemAdapter multipleItemAdapter=new MultipleItemAdapter(this,userList);
 
         //添加点击事件
-        myShow2Adapter.setOnItemClickListener(new UniversalRecyclerViewAdapter.OnItemClickListener() {
+        multipleItemAdapter.setOnItemClickListener(new UniversalRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
                 if (position == 2) {
                     //添加
                     int random = (int) (Math.random() * 10);
                     User user = new User(2, "Changed Name ", stringList.get(random), random % 2 == 0 ? true : false);
-                    myShow2Adapter.add(user, position);
+                    multipleItemAdapter.add(user, position);
                 } else {
                     //更新
                     User user=userList.get(position);
                     user.setIsMan(!user.isMan());
-                    myShow2Adapter.update(position);
+                    multipleItemAdapter.update(position);
                 }
             }
         });
 
-        //添加adapter
-        rv_show1.setAdapter(myShow2Adapter);
+        //设置adapter
+        rv_show1.setAdapter(multipleItemAdapter);
 
 
     }

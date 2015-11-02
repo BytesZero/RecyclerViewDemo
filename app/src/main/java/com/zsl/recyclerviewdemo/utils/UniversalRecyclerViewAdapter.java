@@ -31,18 +31,27 @@ public abstract class UniversalRecyclerViewAdapter<T> extends RecyclerView.Adapt
     protected Context context;
     protected List<T> mlists;
     protected LayoutInflater mInflater;
-    int layoutId;
-
+    protected int layoutId;
     public UniversalRecyclerViewAdapter(Context context, List<T> mlists, int layoutId) {
         this.context = context;
         this.mlists = mlists;
-        this.layoutId = layoutId;
+        this.layoutId=layoutId;
         this.mInflater = LayoutInflater.from(context);
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     @Override
     public UniversalRecyclerViewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new UniversalRecyclerViewViewHolder(mInflater.inflate(layoutId, parent, false), onItemClickListener);
+        if (layoutId==0) {
+            return new UniversalRecyclerViewViewHolder(mInflater.inflate(viewType, parent, false), onItemClickListener);
+        }else{
+            return new UniversalRecyclerViewViewHolder(mInflater.inflate(layoutId,parent,false),onItemClickListener);
+        }
     }
 
     @Override

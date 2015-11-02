@@ -15,8 +15,9 @@ import java.util.List;
  */
 public class MyShow2Adapter extends UniversalRecyclerViewAdapter<User> {
 
+
     public MyShow2Adapter(Context context, List<User> mlists, int layoutId) {
-        super(context, mlists, R.layout.lv_show1_item);
+        super(context, mlists,R.layout.lv_show1_item);
     }
 
     @Override
