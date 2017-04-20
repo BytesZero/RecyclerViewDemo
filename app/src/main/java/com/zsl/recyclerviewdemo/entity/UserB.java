@@ -21,18 +21,8 @@ import java.io.Serializable;
  * Created by zsl on 15/11/2.
  * User用户
  */
-public class User implements Serializable {
-    String name;
-
-    public User(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+public class UserB extends User implements Serializable {
+    public UserB(String name) {
+        super(name);
     }
 }

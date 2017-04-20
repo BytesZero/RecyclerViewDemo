@@ -22,30 +22,21 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.zsl.recyclerviewdemo.utils.UniversalRecyclerViewAdapter.OnItemClickListener;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by zsl on 15/11/2.
+ * RecyclerViewHolder
  */
-public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
+public class UniversalRecyclerViewHolder extends RecyclerView.ViewHolder {
     private SparseArray<View> mViews;
-    private View itemView;
+    public View itemView;
 
-    public UniversalRecyclerViewViewHolder(final View itemView, final OnItemClickListener onItemClickListener) {
+    public UniversalRecyclerViewHolder(final View itemView) {
         super(itemView);
         this.mViews = new SparseArray<View>();
         this.itemView = itemView;
-        //添加点击事件
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(itemView, getLayoutPosition());
-                }
-            }
-        });
     }
 
     /**
@@ -71,9 +62,9 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      *
      * @param viewId item layout 中TextView的id
      * @param text   文本内容
-     * @return UniversalRecyclerViewViewHolder
+     * @return UniversalRecyclerViewHolder
      */
-    public UniversalRecyclerViewViewHolder setText(int viewId, String text) {
+    public UniversalRecyclerViewHolder setText(int viewId, String text) {
         TextView textView = getView(viewId);
         textView.setText(text);
         return this;
@@ -83,29 +74,11 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      * 通过url设置ImageView 的图片
      * 这里可以修改为自己的图片加载库
      *
-     * @param view item layout 中ImageView
-     * @param url  图片的url
-     * @return UniversalRecyclerViewViewHolder
-     */
-    public UniversalRecyclerViewViewHolder setImage(View view, String url) {
-        ImageView imageView = (ImageView) view;
-        imageView.setTag(url);
-        //这里可以修改为自己的图片加载库
-//        Ion.with(mContext).load(url).intoImageView(imageView);
-        ImageLoader.getInstance().displayImage(url, imageView);
-        return this;
-    }
-
-
-    /**
-     * 通过url设置ImageView 的图片
-     * 这里可以修改为自己的图片加载库
-     *
      * @param viewId item layout 中ImageView的id
      * @param url    图片的url
-     * @return UniversalRecyclerViewViewHolder
+     * @return UniversalRecyclerViewHolder
      */
-    public UniversalRecyclerViewViewHolder setImage(int viewId, String url) {
+    public UniversalRecyclerViewHolder setImage(int viewId, String url) {
         ImageView imageView = getView(viewId);
         imageView.setTag(url);
         //这里可以修改为自己的图片加载库
@@ -119,9 +92,9 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      *
      * @param view       item layout 中ImageView
      * @param resourceId 图片资源文件的id
-     * @return UniversalRecyclerViewViewHolder
+     * @return UniversalRecyclerViewHolder
      */
-    public UniversalRecyclerViewViewHolder setImageResource(View view, int resourceId) {
+    public UniversalRecyclerViewHolder setImageResource(View view, int resourceId) {
         ImageView imageView = (ImageView) view;
         imageView.setTag(resourceId + "");
         imageView.setImageResource(resourceId);
@@ -133,9 +106,9 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      *
      * @param viewId     item layout 中ImageView的id
      * @param resourceId 图片资源文件的id
-     * @return UniversalRecyclerViewViewHolder
+     * @return UniversalRecyclerViewHolder
      */
-    public UniversalRecyclerViewViewHolder setImageResource(int viewId, int resourceId) {
+    public UniversalRecyclerViewHolder setImageResource(int viewId, int resourceId) {
         ImageView imageView = getView(viewId);
         imageView.setTag(resourceId + "");
         imageView.setImageResource(resourceId);
@@ -147,9 +120,9 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      *
      * @param view   item layout 中ImageView
      * @param bitmap bitmap
-     * @return UniversalRecyclerViewViewHolder
+     * @return UniversalRecyclerViewHolder
      */
-    public UniversalRecyclerViewViewHolder setImageBitmap(View view, Bitmap bitmap) {
+    public UniversalRecyclerViewHolder setImageBitmap(View view, Bitmap bitmap) {
         ImageView imageView = (ImageView) view;
         imageView.setImageBitmap(bitmap);
         return this;
@@ -160,9 +133,9 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      *
      * @param viewId item layout 中ImageView的id
      * @param bitmap bitmap
-     * @return UniversalRecyclerViewViewHolder
+     * @return UniversalRecyclerViewHolder
      */
-    public UniversalRecyclerViewViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
+    public UniversalRecyclerViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView imageView = getView(viewId);
         imageView.setImageBitmap(bitmap);
         return this;
@@ -174,7 +147,7 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      * @param viewId
      * @return
      */
-    public UniversalRecyclerViewViewHolder setViewGone(int viewId) {
+    public UniversalRecyclerViewHolder setViewGone(int viewId) {
         getView(viewId).setVisibility(View.GONE);
         return this;
     }
@@ -185,7 +158,7 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      * @param viewId
      * @return
      */
-    public UniversalRecyclerViewViewHolder setViewInvisible(int viewId) {
+    public UniversalRecyclerViewHolder setViewInvisible(int viewId) {
         getView(viewId).setVisibility(View.INVISIBLE);
         return this;
     }
@@ -196,19 +169,20 @@ public class UniversalRecyclerViewViewHolder extends RecyclerView.ViewHolder {
      * @param viewId
      * @return
      */
-    public UniversalRecyclerViewViewHolder setViewVisible(int viewId) {
+    public UniversalRecyclerViewHolder setViewVisible(int viewId) {
         getView(viewId).setVisibility(View.VISIBLE);
         return this;
     }
 
     /**
      * 设置CheckBox 是否选中
+     *
      * @param viewId
      * @param isChecked
      * @return
      */
-    public UniversalRecyclerViewViewHolder setCheckBox(int viewId,boolean isChecked){
-        CheckBox checkBox=getView(viewId);
+    public UniversalRecyclerViewHolder setCheckBox(int viewId, boolean isChecked) {
+        CheckBox checkBox = getView(viewId);
         checkBox.setChecked(isChecked);
         return this;
     }

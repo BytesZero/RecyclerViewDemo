@@ -2,13 +2,17 @@ package com.zsl.recyclerviewdemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.zsl.recyclerviewdemo.adapter.MultipleItemAdapter;
 import com.zsl.recyclerviewdemo.entity.User;
-import com.zsl.recyclerviewdemo.utils.UniversalRecyclerViewAdapter;
+import com.zsl.recyclerviewdemo.entity.UserA;
+import com.zsl.recyclerviewdemo.entity.UserB;
+import com.zsl.recyclerviewdemo.utils.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +62,16 @@ public class MainActivity extends AppCompatActivity {
         //添加数据
         for (int i = 0; i < 1000; i++) {
             int position = (int) (Math.random() * 10);
-            User user = new User(i, "Name " + i, stringList.get(position), position % 2 == 0 ? true : false);
-            userList.add(user);
+            if (position % 2 == 1) {
+                userList.add(new UserB("UserB " + i));
+            } else {
+                userList.add(new UserA("Name " + i, i, stringList.get(position), position % 2 == 0 ? true : false));
+            }
+
         }
 
-//        rv_show1.setLayoutManager(new LinearLayoutManager(this));
-        rv_show1.setLayoutManager(new GridLayoutManager(this,2));
+        rv_show1.setLayoutManager(new LinearLayoutManager(this));
+//        rv_show1.setLayoutManager(new GridLayoutManager(this, 2));
 
 //        rv_show1.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.HORIZONTAL));
         /**
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 //        final MyShow2Adapter myShow2Adapter = new MyShow2Adapter(this, userList, 0);
 //
 //        //添加点击事件
-//        myShow2Adapter.setOnItemClickListener(new UniversalRecyclerViewAdapter.OnItemClickListener() {
+//        myShow2Adapter.setOnItemClickListener(new UniversalRecyclerAdapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(View itemView, int position) {
 //                if (position == 2) {
@@ -95,23 +103,36 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 初始化多item的adapter
          */
-        final MultipleItemAdapter multipleItemAdapter=new MultipleItemAdapter(this,userList);
-
+        final MultipleItemAdapter multipleItemAdapter = new MultipleItemAdapter(this, userList);
+        ImageView imageView = new ImageView(this);
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        imageView.setImageResource(R.mipmap.img_loading);
+        multipleItemAdapter.addHeader(imageView);
         //添加点击事件
-        multipleItemAdapter.setOnItemClickListener(new UniversalRecyclerViewAdapter.OnItemClickListener() {
+        multipleItemAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(View itemView, int position) {
+            public void onItemClick(View view, int position) {
                 if (position == 2) {
                     //添加
                     int random = (int) (Math.random() * 10);
-                    User user = new User(2, "Changed Name ", stringList.get(random), random % 2 == 0 ? true : false);
-                    multipleItemAdapter.add(user, position);
+                    UserA user = new UserA("Changed Name ", 2, stringList.get(random), random % 2 == 0 ? true : false);
+                    multipleItemAdapter.add(user, position+1);
+                } else if (position == 5) {
+                    multipleItemAdapter.remove(position);
                 } else {
-                    //更新
-                    User user=userList.get(position);
-                    user.setIsMan(!user.isMan());
-                    multipleItemAdapter.update(position);
+                    User user = userList.get(position);
+                    if (user instanceof UserA) {
+                        UserA userA = (UserA) user;
+                        userA.setIsMan(!userA.isMan());
+                        multipleItemAdapter.update(position);
+                    }
+
                 }
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, int position) {
+                return false;
             }
         });
 
